@@ -1,3 +1,3 @@
 # Python-projects
-Repository for projects where i poke at Python 
-testing commit mergers 
+Repository for projects where I poke at Python 
+
