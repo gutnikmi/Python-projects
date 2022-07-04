@@ -1,4 +1,4 @@
-from rps_int_re import rps_intg
+from rps import rps_intg
 from tkinter import *
 from PIL import ImageTk, Image
 import warnings
