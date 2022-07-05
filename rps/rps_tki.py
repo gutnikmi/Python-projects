@@ -1,5 +1,6 @@
 from rps import rps_intg
 from tkinter import *
+import PIL
 from PIL import ImageTk, Image
 import warnings
 import os
