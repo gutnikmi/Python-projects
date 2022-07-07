@@ -1,7 +1,7 @@
 import socket
 
 def encr():
-    str = "test"
+    str = input()
     list = []
     for i in str:
         list.append(chr(ord(i) * 2))
