@@ -13,10 +13,15 @@ sock = socket.socket()
 host = "127.0.0.1"
 port = 9090
 sock.connect((host, port))
-d = encr()
-sock.send(bytes(d))
-data = sock.recv(4096)
+
+
+def send():
+    d = encr()
+    sock.send(bytes(d))
+    data = sock.recv(4096)
+    print(data.decode('UTF-8'))
+    send()
+
+
+send()
 sock.close()
-
-print(data.decode('UTF-8'))
-

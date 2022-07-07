@@ -15,19 +15,25 @@ port = 9090
 
 sock = socket.socket()
 sock.bind((host, port))
-sock.listen(1)
-conn, addr = sock.accept()
-
-print('connected:', addr)
-
-while True:
-    data = conn.recv(1024)
-    data = decr(data)
-    print(data)
-    data = data.encode()
-    if not data:
-        break
-    conn.send(data)
 
 
-conn.close()
+def rec():
+    sock.listen(1)
+    conn, addr = sock.accept()
+
+    print('connected:', addr)
+
+    while True:
+        data = conn.recv(1024)
+        data = decr(data)
+        print(data)
+        data = data.encode()
+        if not data:
+            break
+        conn.send(data)
+    conn.close()
+    rec()
+
+rec()
+
+
