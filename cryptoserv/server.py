@@ -12,7 +12,6 @@ def decr(str):
 
 host = "127.0.0.1"
 port = 9090
-
 sock = socket.socket()
 sock.bind((host, port))
 
@@ -33,6 +32,7 @@ def rec():
         conn.send(data)
     conn.close()
     rec()
+
 
 rec()
 

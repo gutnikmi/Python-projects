@@ -1,5 +1,6 @@
 import socket
 
+
 def encr():
     str = input()
     list = []
@@ -17,7 +18,15 @@ sock.connect((host, port))
 
 def send():
     d = encr()
-    sock.send(bytes(d))
+    sock.send(d)
+    data = sock.recv(4096)
+    print(data.decode('UTF-8'))
+    send()
+
+
+def send_k():
+    a = "1"
+    sock.send(a.encode)
     data = sock.recv(4096)
     print(data.decode('UTF-8'))
     send()
