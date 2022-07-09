@@ -2,11 +2,11 @@ import socket
 
 
 def encr():
-    str = input()
-    list = []
-    for i in str:
-        list.append(chr(ord(i) * 2))
-    ostr = ''.join(list)
+    stri = input()
+    lst = []
+    for i in stri:
+        lst.append(chr(ord(i) * 2))
+    ostr = ''.join(lst)
     return ostr.encode()
 
 
@@ -16,21 +16,21 @@ port = 9090
 sock.connect((host, port))
 
 
-def send():
+def send_msg():
     d = encr()
     sock.send(d)
     data = sock.recv(4096)
     print(data.decode('UTF-8'))
-    send()
+    send_msg()
 
 
-def send_k():
+def send_ks():
     a = "1"
-    sock.send(a.encode)
+    sock.send(a.encode())
     data = sock.recv(4096)
     print(data.decode('UTF-8'))
-    send()
 
 
-send()
+send_ks()
+send_msg()
 sock.close()
