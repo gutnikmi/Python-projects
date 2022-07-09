@@ -13,8 +13,9 @@ def decr(stri):
 
 def con_handle():
     try:
-        data = sock.recv(4096)
-    except:
+        data = conn.recv(4096)
+    except Exception as e:
+        print(e)
         print("Bad data, try again? y/n")
         a = input()
         if a == "y":
@@ -28,14 +29,14 @@ host = "127.0.0.1"
 port = 9090
 sock = socket.socket()
 sock.bind((host, port))
-sock.listen(1)
+sock.listen(2)
 conn, addr = sock.accept()
 print('Client connected:', addr)
 
 
 def rec():
     while True:
-        data = conn.recv(4096)
+        data = con_handle()
         data = decr(data)
         print(data)
         a = time.asctime()
@@ -48,7 +49,8 @@ def rec():
 
 
 def rec_keys():
-    data = conn.recv(4096)
+    data = con_handle()
+    #data = conn.recv(4096)
     data = data.decode()
     print(data)
     data = "Received key"
