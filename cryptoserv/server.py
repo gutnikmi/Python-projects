@@ -18,9 +18,7 @@ def con_handle():
         print("Bad data, try again? y/n")
         a = input()
         if a == "y":
-            print(a)
             con_handle()
-
         else:
             sock.close()
     return data
@@ -37,9 +35,7 @@ print('Client connected:', addr)
 
 def rec():
     while True:
-        data = con_handle()
-        data = "Wrong data format"
-        data = data.encode()
+        data = conn.recv(4096)
         data = decr(data)
         print(data)
         a = time.asctime()
@@ -52,9 +48,7 @@ def rec():
 
 
 def rec_keys():
-    data = con_handle()
-    data = "Wrong data format"
-    data = data.encode()
+    data = conn.recv(4096)
     data = data.decode()
     print(data)
     data = "Received key"
@@ -63,3 +57,7 @@ def rec_keys():
 
 rec_keys()
 rec()
+
+
+#        data = con_handle()
+#        data = decr(data)
