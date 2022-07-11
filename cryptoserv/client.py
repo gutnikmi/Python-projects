@@ -25,7 +25,7 @@ def send_msg():
 
 
 def send_ks():
-    a = "1"
+    a = "2"
     sock.send(a.encode())
     data = sock.recv(4096)
     print(data.decode('UTF-8'))
