@@ -16,13 +16,21 @@ def con_handle():
         data = conn.recv(4096)
     except Exception as e:
         print(e)
-        print("Bad data, try again? y/n")
+        print("Bad data, create new connection? y/n")
         a = input()
         if a == "y":
-            con_handle()
-        else:
             sock.close()
+            con.connect()
+
+        else:
+            con_handle()
     return data
+
+
+class Connect:
+    def connect(self):
+        self.conn, self.addr = sock.accept()
+        return self.conn, self.addr
 
 
 host = "127.0.0.1"
@@ -30,7 +38,8 @@ port = 9090
 sock = socket.socket()
 sock.bind((host, port))
 sock.listen(2)
-conn, addr = sock.accept()
+con = Connect()
+conn, addr = con.connect()
 print('Client connected:', addr)
 
 
