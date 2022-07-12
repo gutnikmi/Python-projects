@@ -50,7 +50,6 @@ def rec():
 
 def rec_keys():
     data = con_handle()
-    #data = conn.recv(4096)
     data = data.decode()
     print(data)
     data = "Received key"
@@ -59,7 +58,3 @@ def rec_keys():
 
 rec_keys()
 rec()
-
-
-#        data = con_handle()
-#        data = decr(data)
