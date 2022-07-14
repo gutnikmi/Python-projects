@@ -11,36 +11,14 @@ def decr(stri):
     return ostr
 
 
-def con_handle():
-    try:
-        data = conn.recv(4096)
-    except Exception as e:
-        print(e)
-        print("Bad data, create new connection? y/n")
-        a = input()
-        if a == "y":
-            sock.close()
-            con.connect()
-
-        else:
-            con_handle()
-    return data
-
-
-class Connect:
-    def connect(self):
-        self.conn, self.addr = sock.accept()
-        return self.conn, self.addr
-
-
-host = "127.0.0.1"
-port = 9090
-sock = socket.socket()
-sock.bind((host, port))
-sock.listen(2)
-con = Connect()
-conn, addr = con.connect()
-print('Client connected:', addr)
+# def new_con():
+#     sock = socket.socket()
+#     sock.bind((host, port))
+#     sock.listen(2)
+#     conn, addr = sock.accept()
+#     print('Client connected:', addr)
+#     rec_keys()
+#     rec()
 
 
 def rec():
@@ -52,7 +30,7 @@ def rec():
         data = f"message received at {a}"
         if not data:
             break
-        conn.send(data.encode())
+        con.conn.send(data.encode())
 
     rec()
 
@@ -62,8 +40,45 @@ def rec_keys():
     data = data.decode()
     print(data)
     data = "Received key"
-    conn.send(data.encode())
+    con.conn.send(data.encode())
 
 
+def new_con():
+    global con
+    con = Cnct()
+
+
+def con_handle():
+    try:
+        data = con.conn.recv(4096)
+    except Exception as e:
+        print(e)
+        print("Bad data, create new connection? y/n")
+        a = input()
+        if a == "y":
+            con.sock.close()
+            #del con
+            new_con()
+            rec_keys()
+            rec()
+            data = "reconnecting"
+        else:
+            con_handle()
+            data = "reconnecting"
+    return data
+
+
+class Cnct:
+    def __init__(self):
+        self.sock = socket.socket()
+        self.sock.bind((host, port))
+        self.sock.listen(2)
+        self.conn, self.addr = self.sock.accept()
+        print('Client connected:', self.addr)
+
+
+host = "127.0.0.1"
+port = 9090
+con = Cnct()
 rec_keys()
 rec()
