@@ -31,6 +31,14 @@ def send_ks():
     print(data.decode('UTF-8'))
 
 
+def rec_keys():
+    data = sock.recv(4096)
+    data = data.decode()
+    print(data)
+    data = "Received key"
+    sock.send(data.encode())
+
+
 send_ks()
 send_msg()
 sock.close()

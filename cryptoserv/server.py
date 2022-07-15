@@ -1,5 +1,6 @@
 import socket
 import time
+from RSA import keygen, rsa, rsa_dec
 
 
 def decr(stri):
@@ -9,16 +10,6 @@ def decr(stri):
         lst.append(chr(int(ord(i) / 2)))
     ostr = ''.join(lst)
     return ostr
-
-
-# def new_con():
-#     sock = socket.socket()
-#     sock.bind((host, port))
-#     sock.listen(2)
-#     conn, addr = sock.accept()
-#     print('Client connected:', addr)
-#     rec_keys()
-#     rec()
 
 
 def rec():
@@ -41,6 +32,13 @@ def rec_keys():
     print(data)
     data = "Received key"
     con.conn.send(data.encode())
+
+
+def send_ks():
+    a = "2"
+    con.conn.send(a.encode())
+    data = con.conn.recv(4096)
+    print(data.decode('UTF-8'))
 
 
 def new_con():
