@@ -57,14 +57,13 @@ def con_handle():
         a = input()
         if a == "y":
             con.sock.close()
-            #del con
             new_con()
             rec_keys()
             rec()
-            data = "reconnecting"
+            data = "error"
         else:
-            con_handle()
-            data = "reconnecting"
+            con.sock.close()
+            data = "error"
     return data
 
 
