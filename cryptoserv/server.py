@@ -15,7 +15,9 @@ def decr(stri):
 def rec():
     while True:
         data = con_handle()
-        data = decr(data)
+        print(data)
+        # data = data.decode()
+        data = rsa_dec(pri, data)
         print(data)
         a = time.asctime()
         data = f"message received at {a}"
@@ -30,12 +32,13 @@ def rec_keys():
     data = con_handle()
     data = data.decode()
     print(data)
-    data = "Received key"
+    data = "Received keys"
     con.conn.send(data.encode())
 
 
-def send_ks():
-    a = "2"
+def send_ks(a):
+    a = [str(b) for b in a]
+    a = ','.join(a)
     con.conn.send(a.encode())
     data = con.conn.recv(4096)
     print(data.decode('UTF-8'))
@@ -49,20 +52,28 @@ def new_con():
 def con_handle():
     try:
         data = con.conn.recv(4096)
+        if data =='':
+            raise Exception()
+        return data
     except Exception as e:
         print(e)
-        print("Bad data, create new connection? y/n")
+        print("Bad data, creating new connection")
         a = input()
         if a == "y":
             con.sock.close()
             new_con()
+            send_ks(pub)
             rec_keys()
             rec()
             data = "error"
+            data = rsa(data, pub)
+            return data
         else:
             con.sock.close()
             data = "error"
-    return data
+            data = rsa(data, pub)
+            return data
+
 
 
 class Cnct:
@@ -77,5 +88,7 @@ class Cnct:
 host = "127.0.0.1"
 port = 9090
 con = Cnct()
+pub, pri = keygen()
+send_ks(pub)
 rec_keys()
 rec()

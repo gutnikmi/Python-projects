@@ -2,8 +2,8 @@ import random
 
 
 def randprime():
-    p = 1
-    q = 500
+    p = 500
+    q = 1000
     primes = [i for i in range(p, q) if is_prime(i)]
     # print(primes)
     n = random.choice(primes)
@@ -56,11 +56,8 @@ def encrypt(pk, plaintext):
 
 
 def decrypt(pk, ciphertext):
-    # Unpack the key into its components
     key, n = pk
-    # Generate the plaintext based on the ciphertext and key using a^b mod m
     plain = [chr((char ** key) % n) for char in ciphertext]
-    # Return the array of bytes as a string
     return ''.join(plain)
 
 
@@ -71,23 +68,24 @@ def keygen():
     return public, private
 
 
-def rsa(msg, private):
+def rsa(msg, public):
     message = msg
-    encrypted_msg = encrypt(private, message)
+    encrypted_msg = encrypt(public, message)
     emsg = ','.join(map(lambda x: str(x), encrypted_msg))
     emsg = emsg.encode()
     return emsg
 
 
-def rsa_dec(pub, emsg):
+def rsa_dec(private, emsg):
     emsg = emsg.decode()
     emsg = emsg.split(",")
     emsg = list(map(int, emsg))
-    res = decrypt(pub, emsg)
+    res = decrypt(private, emsg)
     return res
 
 
-pub, pri = keygen()
-emsg = rsa(input("say something \n"), pri)
-dec = rsa_dec(pub, emsg)
-print(dec)
+# pub, pri = keygen()
+# print(pub, pri)
+# emsg = rsa(input("say something \n"), pub)
+# dec = rsa_dec(pri, emsg)
+# print(dec)
