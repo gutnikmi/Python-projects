@@ -52,7 +52,7 @@ def new_con():
 def con_handle():
     try:
         data = con.conn.recv(4096)
-        if data =='':
+        if data == b'':
             raise Exception()
         return data
     except Exception as e:
