@@ -57,7 +57,7 @@ def con_handle():
         return data
     except Exception as e:
         print(e)
-        print("Bad data, creating new connection")
+        print("Bad data, create new connection?")
         a = input()
         if a == "y":
             con.sock.close()
@@ -70,8 +70,6 @@ def con_handle():
             return data
         else:
             con.sock.close()
-            data = "error"
-            data = rsa(data, pub)
             return data
 
 
