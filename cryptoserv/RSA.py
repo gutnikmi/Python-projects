@@ -10,7 +10,7 @@ import random
 
 
 def randprime():
-    ss = 50
+    ss = 35
     maxx = 10000
     rb = random.randrange(ss, maxx)
     lb = rb - 50
