@@ -31,6 +31,8 @@ def main(func):
     elif a == 3:
         f = open('tst.txt', 'r+')
         f.truncate(0)
+    else:
+        main(func)
     main(func)
 
 

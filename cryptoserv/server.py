@@ -68,9 +68,6 @@ def con_handle():
         data = "error"
         data = rsa(data, pub)
         return data
-        # else:
-        #     con.sock.close()
-        #     return data
 
 
 class Cnct:

@@ -10,9 +10,11 @@ import random
 
 
 def randprime():
-    p = 1000
-    q = 11000
-    primes = [i for i in range(p, q) if is_prime(i)]
+    ss = 50
+    maxx = 10000
+    rb = random.randrange(ss, maxx)
+    lb = rb - 50
+    primes = [i for i in range(lb, rb) if is_prime(i)]
     n = random.choice(primes)
     return n
 
