@@ -1,11 +1,18 @@
 import random
 
 
+# def randprime():
+#     p = 500
+#     q = 1000
+#     primes = [i for i in range(p, q) if is_prime(i)]
+#     n = random.choice(primes)
+#     return n
+
+
 def randprime():
-    p = 500
-    q = 1000
+    p = 1000
+    q = 11000
     primes = [i for i in range(p, q) if is_prime(i)]
-    # print(primes)
     n = random.choice(primes)
     return n
 
