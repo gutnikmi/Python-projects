@@ -65,7 +65,7 @@ def con_handle():
         send_ks(pub)
         rec_keys()
         rec()
-        data = "error"
+        data = "Errors detected "
         data = rsa(data, pub)
         return data
 
