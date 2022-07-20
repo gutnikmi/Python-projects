@@ -11,7 +11,7 @@ import random
 
 def randprime():
     ss = 35
-    maxx = 10000
+    maxx = 1000
     rb = random.randrange(ss, maxx)
     lb = rb - 50
     primes = [i for i in range(lb, rb) if is_prime(i)]
@@ -93,8 +93,13 @@ def rsa_dec(private, emsg):
     return res
 
 
-# pub, pri = keygen()
-# print(pub, pri)
-# emsg = rsa(input("say something \n"), pub)
-# dec = rsa_dec(pri, emsg)
-# print(dec)
+def testrsa():
+    pub, pri = keygen()
+    print(pub, pri)
+    emsg = rsa("test", pub)
+    dec = rsa_dec(pri, emsg)
+    print(dec)
+
+
+if __name__ == "__main__":
+    testrsa()

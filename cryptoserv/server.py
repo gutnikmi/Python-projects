@@ -15,7 +15,7 @@ def decr(stri):
 def rec():
     while True:
         data = con_handle()
-        print(data)
+        #print(data)
         # data = data.decode()
         data = rsa_dec(pri, data)
         print(data)
@@ -24,7 +24,6 @@ def rec():
         if not data:
             break
         con.conn.send(data.encode())
-
     rec()
 
 

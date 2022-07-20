@@ -1,4 +1,4 @@
-from RSA import randprime
+from RSA import randprime,testrsa
 import time
 
 
@@ -39,6 +39,7 @@ def main(func):
 if __name__ == "__main__":
     print("Welcome to TimeBench!")
     print("What do you want to do?")
-    func = randprime
+    #func = randprime
+    func = testrsa
     main(func)
 

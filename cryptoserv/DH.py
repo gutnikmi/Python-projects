@@ -30,23 +30,23 @@ class DH_Endpoint(object):
             decrypted_message += chr(ord(c) - key)
         return decrypted_message
 
-
-message = input()
-s_public = 197
-s_private = 199
-m_public = 151
-m_private = 157
-Sadat = DH_Endpoint(s_public, m_public, s_private)
-Michael = DH_Endpoint(s_public, m_public, m_private)
-s_partial = Sadat.generate_partial_key()
-print(s_partial)
-m_partial = Michael.generate_partial_key()
-print(m_partial)
-s_full = Sadat.generate_full_key(m_partial)
-print(s_full)
-m_full = Michael.generate_full_key(s_partial)
-print(m_full)
-m_encrypted = Michael.encrypt_message(message)
-print(m_encrypted)
-message = Sadat.decrypt_message(m_encrypted)
-print(message)
+if __name__ == "__main__":
+    message = input()
+    s_public = 197
+    s_private = 199
+    m_public = 151
+    m_private = 157
+    Sadat = DH_Endpoint(s_public, m_public, s_private)
+    Michael = DH_Endpoint(s_public, m_public, m_private)
+    s_partial = Sadat.generate_partial_key()
+    print(s_partial)
+    m_partial = Michael.generate_partial_key()
+    print(m_partial)
+    s_full = Sadat.generate_full_key(m_partial)
+    print(s_full)
+    m_full = Michael.generate_full_key(s_partial)
+    print(m_full)
+    m_encrypted = Michael.encrypt_message(message)
+    print(m_encrypted)
+    message = Sadat.decrypt_message(m_encrypted)
+    print(message)
