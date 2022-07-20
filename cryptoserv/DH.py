@@ -31,7 +31,7 @@ class DH_Endpoint(object):
         return decrypted_message
 
 
-message = "This is a very secret message!!!"
+message = input()
 s_public = 197
 s_private = 199
 m_public = 151
