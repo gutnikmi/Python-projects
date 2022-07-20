@@ -93,7 +93,7 @@ def rsa_dec(private, emsg):
     return res
 
 
-def testrsa():
+def test_rsa():
     pub, pri = keygen()
     print(pub, pri)
     emsg = rsa("test", pub)
@@ -102,4 +102,4 @@ def testrsa():
 
 
 if __name__ == "__main__":
-    testrsa()
+    test_rsa()
