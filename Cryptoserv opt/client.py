@@ -1,14 +1,5 @@
 import socket
-from RSA import keygen, rsa, rsa_dec
-
-
-def encr():
-    stri = input()
-    lst = []
-    for i in stri:
-        lst.append(chr(ord(i) * 2))
-    ostr = ''.join(lst)
-    return ostr.encode()
+import rsa
 
 
 sock = socket.socket()
@@ -18,7 +9,8 @@ sock.connect((host, port))
 
 
 def send_msg():
-    d = rsa(input(), pub)
+    # d = rsa(input(), pub)
+    d = rsa.encrypt(input().encode(), pub)
     sock.send(d)
     data = sock.recv(4096)
     print(data.decode())
@@ -34,9 +26,10 @@ def send_ks():
 
 def rec_keys():
     data = sock.recv(4096)
-    data = data.decode()
-    data = tuple(map(int, data.split(',')))
-    print(data)
+    # data = data.decode()
+    # data = tuple(map(int, data.split(',')))
+    data = rsa.key.PublicKey.load_pkcs1(data, format='DER')
+    #print(data)
     data1 = "Received keys"
     sock.send(data1.encode())
     return data

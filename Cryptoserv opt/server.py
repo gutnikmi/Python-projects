@@ -1,15 +1,6 @@
 import socket
 import time
-from RSA import keygen, rsa, rsa_dec
-
-
-def decr(stri):
-    st = stri.decode()
-    lst = []
-    for i in st:
-        lst.append(chr(int(ord(i) / 2)))
-    ostr = ''.join(lst)
-    return ostr
+import rsa
 
 
 def rec():
@@ -17,7 +8,8 @@ def rec():
         data = con_handle()
         #print(data)
         # data = data.decode()
-        data = rsa_dec(pri, data)
+        #data = rsa_dec(pri, data)
+        data = rsa.decrypt(data, pri).decode()
         print(data)
         a = time.asctime()
         data = f"message received at {a}"
@@ -36,9 +28,10 @@ def rec_keys():
 
 
 def send_ks(a):
-    a = [str(b) for b in a]
-    a = ','.join(a)
-    con.conn.send(a.encode())
+    # a = [str(b) for b in a]
+    # a = ','.join(a)
+    a = a.save_pkcs1(format='DER')
+    con.conn.send(a)
     data = con.conn.recv(4096)
     print(data.decode('UTF-8'))
 
@@ -64,8 +57,9 @@ def con_handle():
         send_ks(pub)
         rec_keys()
         rec()
-        data = "Errors detected "
-        data = rsa(data, pub)
+        data = b'Errors detected '
+        # data = rsa(data, pub)
+        data = rsa.encrypt(data, pub)
         return data
 
 
@@ -81,7 +75,7 @@ class Cnct:
 host = "127.0.0.1"
 port = 9090
 con = Cnct()
-pub, pri = keygen()
+(pub, pri) = rsa.newkeys(512)
 send_ks(pub)
 rec_keys()
 rec()
