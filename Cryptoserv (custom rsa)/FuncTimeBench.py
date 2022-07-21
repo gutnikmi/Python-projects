@@ -1,6 +1,6 @@
 from RSA import randprime, test_rsa
 import time
-
+import rsa
 
 def time_bench(func):
     count_time, result = sing_bench(func)
@@ -73,10 +73,19 @@ def main(func_a, func_b=''):
     main(func_a, func_b='')
 
 
+def tst_rsa_lib():
+    (pubkey, privkey) = rsa.newkeys(512)
+    message = b'Hello Blablacode.ru!'
+    crypto = rsa.encrypt(message, pubkey)
+    message = rsa.decrypt(crypto, privkey)
+    print(message)
+
+
 if __name__ == "__main__":
     print("Welcome to TimeBench!")
     print("What do you want to do?")
-    func_a = randprime
+    func_a = tst_rsa_lib
     func_b = test_rsa
     main(func_a, func_b)
+
 
