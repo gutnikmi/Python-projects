@@ -6,9 +6,6 @@ import rsa
 def rec():
     while True:
         data = con_handle()
-        #print(data)
-        # data = data.decode()
-        #data = rsa_dec(pri, data)
         data = rsa.decrypt(data, pri).decode()
         print(data)
         a = time.asctime()
@@ -28,8 +25,6 @@ def rec_keys():
 
 
 def send_ks(a):
-    # a = [str(b) for b in a]
-    # a = ','.join(a)
     a = a.save_pkcs1(format='DER')
     con.conn.send(a)
     data = con.conn.recv(4096)
@@ -50,15 +45,12 @@ def con_handle():
     except Exception as e:
         print(e)
         print("Bad data, creating new connection")
-        # a = input()
-        # if a == "y":
         con.sock.close()
         new_con()
         send_ks(pub)
         rec_keys()
         rec()
         data = b'Errors detected '
-        # data = rsa(data, pub)
         data = rsa.encrypt(data, pub)
         return data
 
