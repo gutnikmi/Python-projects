@@ -1,7 +1,6 @@
 import socket
 import time
 import rsa
-import os
 from Crypto.Cipher import AES
 
 unpad = lambda s: s[:-ord(s[len(s)-1:])]
