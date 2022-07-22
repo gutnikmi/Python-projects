@@ -4,11 +4,14 @@ import rsa
 import os
 from Crypto.Cipher import AES
 
+unpad = lambda s: s[:-ord(s[len(s)-1:])]
+
+
 def rec():
     while True:
         data = con_handle()
-        data = rsa.decrypt(data, pri).decode()
-        print(data)
+        decipher = AES.new(aes_key, AES.MODE_ECB)
+        print(unpad(decipher.decrypt(data).decode()))
         a = time.asctime()
         data = f"message received at {a}"
         if not data:
@@ -20,9 +23,8 @@ def rec():
 def rec_keys():
     data = con_handle()
     data = rsa.decrypt(data, pri)
-    print("Received AES key", data)
-    data = "Server has received the AES key"
-    con.conn.send(data.encode())
+    data1 = "Server has received the AES key"
+    con.conn.send(data1.encode())
     return data
 
 
@@ -39,6 +41,7 @@ def new_con():
 
 
 def con_handle():
+    global aes_key
     try:
         data = con.conn.recv(4096)
         if data == b'':
@@ -50,7 +53,7 @@ def con_handle():
         con.sock.close()
         new_con()
         send_ks(pub)
-        rec_keys()
+        aes_key = rec_keys()
         rec()
         data = b'Errors detected '
         data = rsa.encrypt(data, pub)
@@ -71,5 +74,6 @@ port = 9090
 con = Cnct()
 (pub, pri) = rsa.newkeys(512)
 send_ks(pub)
-rec_keys()
+aes_key = rec_keys()
+print("Received AES key", aes_key)
 rec()

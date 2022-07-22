@@ -9,10 +9,13 @@ port = 9090
 sock.connect((host, port))
 
 
+pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
+
+
 def send_msg():
-    # d = rsa(input(), pub)
-    d = rsa.encrypt(input().encode(), pub)
-    sock.send(d)
+    cipher = AES.new(key, AES.MODE_ECB)
+    msg = cipher.encrypt(pad(input()).encode())
+    sock.send(msg)
     data = sock.recv(4096)
     print(data.decode())
     send_msg()
@@ -36,6 +39,7 @@ def rec_keys():
 
 pub = rec_keys()
 key = os.urandom(16) # l = 128
+BS = 16
 send_ks(key)
 send_msg()
 sock.close()
