@@ -22,7 +22,7 @@ def rec():
 def rec_keys():
     data = con_handle()
     data = rsa.decrypt(data, pri)
-    data1 = "Server has received the AES key"
+    data1 = "Server has received and decrypted the AES key"
     con.conn.send(data1.encode())
     return data
 
@@ -74,5 +74,5 @@ con = Cnct()
 (pub, pri) = rsa.newkeys(512)
 send_ks(pub)
 aes_key = rec_keys()
-print("Received AES key", aes_key)
+print("Received the AES key")
 rec()

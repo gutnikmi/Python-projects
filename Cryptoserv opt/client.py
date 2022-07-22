@@ -22,7 +22,7 @@ def send_msg():
 
 
 def send_ks(key):
-    print("sent AES key", key)
+    print("Sent encrypted AES key")
     key = rsa.encrypt(key, pub)
     sock.send(key)
     data = sock.recv(4096)
@@ -32,7 +32,7 @@ def send_ks(key):
 def rec_keys():
     data = sock.recv(4096)
     data = rsa.key.PublicKey.load_pkcs1(data, format='DER')
-    data1 = "Received RSA public key"
+    data1 = "Client has received the RSA public key"
     sock.send(data1.encode())
     return data
 
