@@ -1,7 +1,8 @@
 import socket
 import time
 import rsa
-
+import os
+from Crypto.Cipher import AES
 
 def rec():
     while True:
@@ -18,10 +19,11 @@ def rec():
 
 def rec_keys():
     data = con_handle()
-    data = data.decode()
-    print(data)
-    data = "Received keys"
+    data = rsa.decrypt(data, pri)
+    print("Received AES key", data)
+    data = "Server has received the AES key"
     con.conn.send(data.encode())
+    return data
 
 
 def send_ks(a):
@@ -44,7 +46,7 @@ def con_handle():
         return data
     except Exception as e:
         print(e)
-        print("Bad data, creating new connection")
+        print("Bad data, listening for new connections")
         con.sock.close()
         new_con()
         send_ks(pub)
