@@ -68,11 +68,12 @@ class Cnct:
         print('Client connected:', self.addr)
 
 
-host = "127.0.0.1"
-port = 9090
-con = Cnct()
-(pub, pri) = rsa.newkeys(512)
-send_ks(pub)
-aes_key = rec_keys()
-print("Received the AES key")
-rec()
+if __name__ == "__main__":
+    host = "127.0.0.1"
+    port = 9090
+    con = Cnct()
+    (pub, pri) = rsa.newkeys(512)
+    send_ks(pub)
+    aes_key = rec_keys()
+    print("Received the AES key")
+    rec()

@@ -37,9 +37,10 @@ def rec_keys():
     return data
 
 
-pub = rec_keys()
-key = os.urandom(16) # l = 128
-BS = 16
-send_ks(key)
-send_msg()
-sock.close()
+if __name__ == "__main__":
+        pub = rec_keys()
+        key = os.urandom(16) # l = 128
+        BS = 16
+        send_ks(key)
+        send_msg()
+        sock.close()
