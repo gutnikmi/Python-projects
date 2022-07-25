@@ -1,6 +1,7 @@
 import socket
 import time
 import rsa
+import pickle
 from Crypto.Cipher import AES
 
 unpad = lambda s: s[:-ord(s[len(s)-1:])]

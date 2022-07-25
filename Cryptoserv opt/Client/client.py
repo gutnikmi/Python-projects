@@ -1,6 +1,7 @@
 import socket
 import rsa
 import os
+import pickle
 from Crypto.Cipher import AES
 
 sock = socket.socket()
