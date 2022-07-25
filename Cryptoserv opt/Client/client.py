@@ -13,13 +13,14 @@ sock.connect((host, port))
 pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
 
 
-def send_msg():
+def send_msg(inp):
     cipher = AES.new(key, AES.MODE_ECB)
-    msg = cipher.encrypt(pad(input()).encode())
+    msg = cipher.encrypt(pad(inp).encode())
+    msg = pickle.dumps(msg)
     sock.send(msg)
     data = sock.recv(4096)
     print(data.decode())
-    send_msg()
+    send_msg(input())
 
 
 def send_ks(key):
@@ -43,5 +44,5 @@ if __name__ == "__main__":
         key = os.urandom(16) # l = 128
         BS = 16
         send_ks(key)
-        send_msg()
+        send_msg(input())
         sock.close()

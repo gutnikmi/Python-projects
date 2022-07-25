@@ -10,6 +10,7 @@ unpad = lambda s: s[:-ord(s[len(s)-1:])]
 def rec():
     while True:
         data = con_handle()
+        data = pickle.loads(data)
         decipher = AES.new(aes_key, AES.MODE_ECB)
         print(unpad(decipher.decrypt(data).decode()))
         a = time.asctime()
