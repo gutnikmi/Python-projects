@@ -11,6 +11,7 @@ sock.connect((host, port))
 
 
 pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
+unpad = lambda s: s[:-ord(s[len(s)-1:])]
 
 
 def send_msg(inp):
@@ -18,8 +19,16 @@ def send_msg(inp):
     msg = cipher.encrypt(pad(inp).encode())
     msg = pickle.dumps(msg)
     sock.send(msg)
+    data1 = sock.recv(4096)
+    data1 = pickle.loads(data1)
+    decipher = AES.new(key, AES.MODE_ECB)  # decryption
+    data1 = unpad(decipher.decrypt(data1).decode())  # decryption
+    print(data1)
     data = sock.recv(4096)
-    print(data.decode())
+    data = pickle.loads(data)
+    decipher = AES.new(key, AES.MODE_ECB)  # decryption
+    data = unpad(decipher.decrypt(data).decode())  # decryption
+    print(data)
     send_msg(input())
 
 
@@ -40,9 +49,9 @@ def rec_keys():
 
 
 if __name__ == "__main__":
-        pub = rec_keys()
-        key = os.urandom(16) # l = 128
-        BS = 16
-        send_ks(key)
-        send_msg(input())
-        sock.close()
+    pub = rec_keys()
+    key = os.urandom(16)  # l = 128
+    BS = 16
+    send_ks(key)
+    send_msg(input())
+    sock.close()

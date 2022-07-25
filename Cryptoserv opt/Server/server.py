@@ -2,26 +2,36 @@ import socket
 import time
 import rsa
 import pickle
+import os
 from Crypto.Cipher import AES
 
+
+BS = 16
 unpad = lambda s: s[:-ord(s[len(s)-1:])]
+pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
 
 
-def rec():
+def rec():  # receive message
     while True:
         data = con_handle()
-        data = pickle.loads(data)
-        decipher = AES.new(aes_key, AES.MODE_ECB)
-        print(unpad(decipher.decrypt(data).decode()))
+        data = pickle.loads(data)  # decryption
+        decipher = AES.new(aes_key, AES.MODE_ECB)  # decryption
+        res = unpad(decipher.decrypt(data).decode())  # decryption
+        data1 = serv_cmd(res)  # parse commands
+        cipher = AES.new(aes_key, AES.MODE_ECB)
+        data1 = cipher.encrypt(pad(data1).encode())
+        print(data1)
         a = time.asctime()
-        data = f"message received at {a}"
-        if not data:
-            break
-        con.conn.send(data.encode())
-    rec()
+        data2 = f"message received at {a}"
+        cipher = AES.new(aes_key, AES.MODE_ECB)
+        data2 = cipher.encrypt(pad(data2).encode())
+        print(data2)
+        con.conn.send(pickle.dumps(data1))
+        con.conn.send(pickle.dumps(data2))
+        rec()
 
 
-def rec_keys():
+def rec_keys():  # receive keys
     data = con_handle()
     data = rsa.decrypt(data, pri)
     data1 = "Server has received and decrypted the AES key"
@@ -29,19 +39,19 @@ def rec_keys():
     return data
 
 
-def send_ks(a):
+def send_ks(a):  # send keys
     a = a.save_pkcs1(format='DER')
     con.conn.send(a)
     data = con.conn.recv(4096)
     print(data.decode('UTF-8'))
 
 
-def new_con():
+def new_con():  # creates new connection
     global con
     con = Cnct()
 
 
-def con_handle():
+def con_handle():  # handles received data, creates new connections
     global aes_key
     try:
         data = con.conn.recv(4096)
@@ -61,7 +71,16 @@ def con_handle():
         return data
 
 
-class Cnct:
+def serv_cmd(inpt):  # parse commands
+    match inpt:
+        case "-l":
+            files_serv = os.listdir()
+            return files_serv
+        case _:
+            return "Invalid command, write -h for list of commands"
+
+
+class Cnct:  # settings for a connection
     def __init__(self):
         self.sock = socket.socket()
         self.sock.bind((host, port))
@@ -70,7 +89,7 @@ class Cnct:
         print('Client connected:', self.addr)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # main body
     host = "127.0.0.1"
     port = 9090
     con = Cnct()
