@@ -10,20 +10,28 @@ port = 9090
 sock.connect((host, port))
 
 
-def send_msg(inp):
+def enc_pic(data):
     cipher = AES.new(key, AES.MODE_ECB)
-    msg = pad(pickle.dumps(inp), 16)
-    msg = cipher.encrypt(msg)
+    data = pickle.dumps(data)
+    data = cipher.encrypt(pad(data, BS))
+    return data
+
+
+def decr_pic(data):
+    decipher = AES.new(key, AES.MODE_ECB)  # decryption
+    data = unpad(decipher.decrypt(data), BS)  # decryption
+    res = pickle.loads(data)  # decryption
+    return res
+
+
+def send_msg(inp):
+    msg = enc_pic(inp)
     sock.send(msg)
     data1 = sock.recv(4096)
-    decipher = AES.new(key, AES.MODE_ECB)  # decryption
-    data1 = unpad(decipher.decrypt(data1), 16)  # decryption, unpadding
-    data1 = pickle.loads(data1)  # unpickle
+    data1 = decr_pic(data1)
     print(data1)
     data = sock.recv(4096)
-    decipher = AES.new(key, AES.MODE_ECB)  # decryption
-    data = unpad(decipher.decrypt(data), 16)  # decryption, unpadding
-    data = pickle.loads(data)  # unpickle
+    data = decr_pic(data)
     print(data)
     send_msg(input())
 
