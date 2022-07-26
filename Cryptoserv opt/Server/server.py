@@ -4,30 +4,27 @@ import rsa
 import pickle
 import os
 from Crypto.Cipher import AES
-
-
-BS = 16
-unpad = lambda s: s[:-ord(s[len(s)-1:])]
-pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
+from Crypto.Util.Padding import pad, unpad
 
 
 def rec():  # receive message
     while True:
-        data = con_handle()
-        data = pickle.loads(data)  # decryption
+        data = con_handle()  # receive data
         decipher = AES.new(aes_key, AES.MODE_ECB)  # decryption
-        res = unpad(decipher.decrypt(data).decode())  # decryption
+        data = unpad(decipher.decrypt(data), 16)  # decryption
+        res = pickle.loads(data)  # decryption
         data1 = serv_cmd(res)  # parse commands
-        cipher = AES.new(aes_key, AES.MODE_ECB)
-        data1 = cipher.encrypt(pad(data1).encode())
         print(data1)
+        cipher = AES.new(aes_key, AES.MODE_ECB)
+        data1 = pickle.dumps(data1)
+        data1 = cipher.encrypt(pad(data1, 16))
         a = time.asctime()
         data2 = f"message received at {a}"
+        data2 = pickle.dumps(data2)
         cipher = AES.new(aes_key, AES.MODE_ECB)
-        data2 = cipher.encrypt(pad(data2).encode())
-        print(data2)
-        con.conn.send(pickle.dumps(data1))
-        con.conn.send(pickle.dumps(data2))
+        data2 = cipher.encrypt(pad(data2, 16))
+        con.conn.send(data1)
+        con.conn.send(data2)
         rec()
 
 

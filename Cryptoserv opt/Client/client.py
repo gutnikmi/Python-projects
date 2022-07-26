@@ -3,31 +3,27 @@ import rsa
 import os
 import pickle
 from Crypto.Cipher import AES
-
+from Crypto.Util.Padding import pad, unpad
 sock = socket.socket()
 host = "127.0.0.1"
 port = 9090
 sock.connect((host, port))
 
 
-pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
-unpad = lambda s: s[:-ord(s[len(s)-1:])]
-
-
 def send_msg(inp):
     cipher = AES.new(key, AES.MODE_ECB)
-    msg = cipher.encrypt(pad(inp).encode())
-    msg = pickle.dumps(msg)
+    msg = pad(pickle.dumps(inp), 16)
+    msg = cipher.encrypt(msg)
     sock.send(msg)
     data1 = sock.recv(4096)
-    data1 = pickle.loads(data1)
     decipher = AES.new(key, AES.MODE_ECB)  # decryption
-    data1 = unpad(decipher.decrypt(data1).decode())  # decryption
+    data1 = unpad(decipher.decrypt(data1), 16)  # decryption, unpadding
+    data1 = pickle.loads(data1)  # unpickle
     print(data1)
     data = sock.recv(4096)
-    data = pickle.loads(data)
     decipher = AES.new(key, AES.MODE_ECB)  # decryption
-    data = unpad(decipher.decrypt(data).decode())  # decryption
+    data = unpad(decipher.decrypt(data), 16)  # decryption, unpadding
+    data = pickle.loads(data)  # unpickle
     print(data)
     send_msg(input())
 
