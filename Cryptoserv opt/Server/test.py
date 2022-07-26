@@ -22,4 +22,17 @@ def test():
     test()
 
 
-test()
+# test()
+
+
+try:
+    while True:
+        print("Program is running")
+except KeyboardInterrupt:
+    print("Oh! you pressed CTRL + C.")
+    print("Program interrupted.")
+finally:
+    print("This was an important code, ran at the end.")
+
+
+

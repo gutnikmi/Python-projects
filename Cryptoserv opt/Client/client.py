@@ -49,5 +49,8 @@ if __name__ == "__main__":
     key = os.urandom(16)  # l = 128
     BS = 16
     send_ks(key)
-    send_msg(input())
-    sock.close()
+    try:
+        send_msg(input())
+    except KeyboardInterrupt:
+        print("keyboard interrupt")
+        sock.close()
