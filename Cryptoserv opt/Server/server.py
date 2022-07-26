@@ -7,23 +7,30 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 
 
+def enc_pic(data):
+    cipher = AES.new(aes_key, AES.MODE_ECB)
+    data = pickle.dumps(data)
+    data = cipher.encrypt(pad(data, BS))
+    return data
+
+
+def decr_pic(data):
+    decipher = AES.new(aes_key, AES.MODE_ECB)  # decryption
+    data = unpad(decipher.decrypt(data), BS)  # decryption
+    res = pickle.loads(data)  # decryption
+    return res
+
+
 def rec():  # receive message
     while True:
-        data = con_handle()  # receive data
-        decipher = AES.new(aes_key, AES.MODE_ECB)  # decryption
-        data = unpad(decipher.decrypt(data), 16)  # decryption
-        res = pickle.loads(data)  # decryption
-        data1 = serv_cmd(res)  # parse commands
-        print(data1)
-        cipher = AES.new(aes_key, AES.MODE_ECB)
-        data1 = pickle.dumps(data1)
-        data1 = cipher.encrypt(pad(data1, 16))
-        a = time.asctime()
-        data2 = f"message received at {a}"
-        data2 = pickle.dumps(data2)
-        cipher = AES.new(aes_key, AES.MODE_ECB)
-        data2 = cipher.encrypt(pad(data2, 16))
-        con.conn.send(data1)
+        data = decr_pic(con_handle())  # receive data
+        res = serv_cmd(data)  # parse commands
+        print(res)
+        res_data = enc_pic(res)
+        time_rec = time.asctime()
+        data2 = f"message received at {time_rec}"
+        data2 = enc_pic(data2)
+        con.conn.send(res_data)
         con.conn.send(data2)
         rec()
 
@@ -72,6 +79,7 @@ def serv_cmd(inpt):  # parse commands
     match inpt:
         case "-l":
             files_serv = os.listdir()
+            files_serv = '\n'.join(files_serv)
             return files_serv
         case _:
             return "Invalid command, write -h for list of commands"
@@ -89,6 +97,7 @@ class Cnct:  # settings for a connection
 if __name__ == "__main__":  # main body
     host = "127.0.0.1"
     port = 9090
+    BS = 16
     con = Cnct()
     (pub, pri) = rsa.newkeys(512)
     send_ks(pub)

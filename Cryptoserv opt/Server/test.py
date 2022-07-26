@@ -3,12 +3,19 @@ import pickle
 from Crypto.Util.Padding import pad, unpad
 
 
-files_serv = os.listdir()
-files_serv = pickle.dumps(files_serv)
-a = pad(files_serv, 16)
-print(a)
-b = unpad(a, 16)
-b = pickle.loads(b)
-print(b)
+def serv_cmd(inpt):  # parse commands
+    match inpt:
+        case "-l":
+            files_serv = os.listdir()
+            files_serv = '\n'.join(files_serv)
+            return files_serv
+        case _:
+            return "Invalid command, write -h for list of commands"
 
 
+def test():
+    print(serv_cmd(input()))
+    test()
+
+
+test()
