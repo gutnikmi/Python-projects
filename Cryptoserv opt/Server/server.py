@@ -102,6 +102,7 @@ if __name__ == "__main__":  # main body
     host = "127.0.0.1"
     port = 9090
     BS = 16
+    print("Server is up, awaiting connections")
     con = Cnct()
     (pub, pri) = rsa.newkeys(512)
     send_ks(pub)
