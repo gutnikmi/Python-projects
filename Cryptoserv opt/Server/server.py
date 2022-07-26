@@ -1,23 +1,19 @@
-import socket
-import time
-import rsa
-import pickle
-import os
+import socket, time, rsa, pickle, os
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 
 
-def enc_pic(data):
+def enc_pic(data):  # encrypt and pickle
     cipher = AES.new(aes_key, AES.MODE_ECB)
     data = pickle.dumps(data)
     data = cipher.encrypt(pad(data, BS))
     return data
 
 
-def decr_pic(data):
-    decipher = AES.new(aes_key, AES.MODE_ECB)  # decryption
-    data = unpad(decipher.decrypt(data), BS)  # decryption
-    res = pickle.loads(data)  # decryption
+def decr_pic(data):  # decrypt and unpickle
+    decipher = AES.new(aes_key, AES.MODE_ECB)
+    data = unpad(decipher.decrypt(data), BS)
+    res = pickle.loads(data)
     return res
 
 
@@ -69,6 +65,7 @@ def con_handle():  # handles received data, creates new connections
         new_con()
         send_ks(pub)
         aes_key = rec_keys()
+        print("Received the AES key")
         rec()
         data = b'Errors detected '
         data = rsa.encrypt(data, pub)
