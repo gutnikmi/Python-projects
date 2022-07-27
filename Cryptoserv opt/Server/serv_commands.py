@@ -18,6 +18,7 @@ def serv_cmd(inpt):  # parse commands
     func_dict = {
         "-list": list_f,
         "-help": help_f,
+        "-read": read_f
     }
 
     if " " in inpt:
@@ -80,6 +81,17 @@ def help_f(args=''):
         res += "-list: lists all files stored on the server \n" \
                    "-help: lists all server commands \n" \
                "type -help -command to get info on said command"
+    return res
+
+
+def read_f(args=''):
+    res = ""
+    allowed = []
+    res += arg_filter(args, allowed)
+    if "-a" in args:  # optional args
+        pass
+    if args == '' or "-b" in args:  # default arg
+        print("this works")
     return res
 
 
