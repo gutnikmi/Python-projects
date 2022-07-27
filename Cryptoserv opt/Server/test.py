@@ -3,12 +3,30 @@ import pickle
 from Crypto.Util.Padding import pad, unpad
 
 
-def listf(args=''):
+def func_template(args=''):
     res = ""
-    allowed = ["-h", "-l"]
+    allowed = []
+    res += arg_filter(args, allowed)
+    if "-a" in args:  # optional args
+        pass
+    if args == '' or "-b" in args:  # default arg
+        pass
+    return res
+
+
+def arg_filter(args, allowed):
+    res = ""
     for i in args:
         if (i != " " and i != "-") and (f"-{i}" not in allowed):
             res += f"-{i} is not an argument, type -h -l for all valid args \n"
+    return res
+
+
+
+def listf(args=''):
+    res = ""
+    allowed = ["-h", "-l"]
+    res += arg_filter(args, allowed)
     if "-h" in args:
         res += "this function lists all files on the server.\n"
     if args == '' or "-l" in args:
@@ -17,16 +35,18 @@ def listf(args=''):
     return res
 
 
-def helpf(args = ''):
+def helpf(args=''):
     res = ""
     allowed = ["-h", "-l"]
-    for i in args:
-        if (i != " " and i != "-") and (f"-{i}" not in allowed):
-            res += f"-{i} is not an argument, type -h -l for all valid args \n"
-    cmd_list = "-l: lists all files stored on the server \n" \
-               "-h: lists all server commands"
-
-    return cmd_list
+    res += arg_filter(args, allowed)
+    if "-l" in args:  # optional args
+        res += "-l: lists all files stored on the server.\n" \
+               "accepts arguments:\n" \
+               "-h: description \n"
+    if args == '' or "-h" in args:  # default arg
+        res += "-l: lists all files stored on the server \n" \
+                   "-h: lists all server commands"
+    return res
 
 
 def lovec():
@@ -37,7 +57,6 @@ def serv_cmd(inpt):  # parse commands
     func_dict = {
         "-l": listf,
         "-h": helpf,
-        "lc": lovec
     }
 
     if " " in inpt:
@@ -45,7 +64,7 @@ def serv_cmd(inpt):  # parse commands
         if inpt in func_dict:
             return func_dict[inpt](args)
         else:
-            return "wrong func"
+            return "Unknown command, type -h to list all available commands"
     else:
         if inpt in func_dict:
             return func_dict[inpt]()
