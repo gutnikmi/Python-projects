@@ -91,7 +91,8 @@ def read_f(args=''):
     if "-a" in args:  # optional args
         pass
     if args == '' or "-b" in args:  # default arg
-        print("this works")
+        with open("test_folder" + "/test_txt.txt", "r") as f:
+            res = f.read()
     return res
 
 
