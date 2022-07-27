@@ -3,20 +3,30 @@ import pickle
 from Crypto.Util.Padding import pad, unpad
 
 
-def lovea(args=''):
-    allowed = ["-", "h", "l"]
+def listf(args=''):
+    res = ""
+    allowed = ["-h", "-l"]
     for i in args:
-        if i not in allowed:
-            print(f"-{i} is not an argument")
+        if (i != " " and i != "-") and (f"-{i}" not in allowed):
+            res += f"-{i} is not an argument, type -h -l for all valid args \n"
     if "-h" in args:
-        print("this helps")
-    if "-l" in args:
-        print(os.listdir())
-    print("this is func a")
+        res += "this function lists all files on the server.\n"
+    if args == '' or "-l" in args:
+        files_serv = '\n'.join(os.listdir()) + "\n"
+        res += files_serv
+    return res
 
 
-def loveb():
-    print("this is func b")
+def helpf(args = ''):
+    res = ""
+    allowed = ["-h", "-l"]
+    for i in args:
+        if (i != " " and i != "-") and (f"-{i}" not in allowed):
+            res += f"-{i} is not an argument, type -h -l for all valid args \n"
+    cmd_list = "-l: lists all files stored on the server \n" \
+               "-h: lists all server commands"
+
+    return cmd_list
 
 
 def lovec():
@@ -25,22 +35,22 @@ def lovec():
 
 def serv_cmd(inpt):  # parse commands
     func_dict = {
-        "la": lovea,
-        "lb": loveb,
+        "-l": listf,
+        "-h": helpf,
         "lc": lovec
     }
 
     if " " in inpt:
         inpt, args = inpt.split(" ", 1)
         if inpt in func_dict:
-            func_dict[inpt](args)
+            return func_dict[inpt](args)
         else:
-            print("wrong funct")
+            return "wrong func"
     else:
         if inpt in func_dict:
-            func_dict[inpt]()
+            return func_dict[inpt]()
         else:
-            print("wrong funct")
+            return "wrong func"
     # match inpt:
     #     case "-l":
     #         files_serv = os.listdir()
@@ -56,7 +66,7 @@ def serv_cmd(inpt):  # parse commands
 
 def test():
     # print(serv_cmd(input()))
-    serv_cmd(input())
+    print(serv_cmd(input()))
     test()
 
 
