@@ -16,9 +16,19 @@ def func_template(args=''):
 
 def arg_filter(args, allowed):
     res = ""
-    for i in args:
-        if (i != " " and i != "-") and (f"-{i}" not in allowed):
-            res += f"-{i} is not an argument, type -h -l for all valid args \n"
+    f_args = args
+    while f_args != "":
+        if " " in f_args:
+            arg, f_args = f_args.split(" ", 1)
+            if arg not in allowed:
+                res += f"{arg} is not an argument, type -h -l for all valid args \n"
+        else:
+            if f_args not in allowed:
+                res += f"{f_args} is not an argument, type -h -l for all valid args \n"
+            f_args = ""
+    # for i in args:
+    #     if (i != " " and i != "-") and (f"-{i}" not in allowed):
+    #         res += f"-{i} is not an argument, type -h -l for all valid args \n"
     return res
 
 

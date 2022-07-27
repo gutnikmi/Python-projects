@@ -1,4 +1,6 @@
 import os
+from os import listdir
+from os.path import isfile, join
 
 
 def serv_cmd(inpt):  # parse commands
@@ -22,9 +24,16 @@ def serv_cmd(inpt):  # parse commands
 
 def arg_filter(args, allowed):
     res = ""
-    for i in args:
-        if (i != " " and i != "-") and (f"-{i}" not in allowed):
-            res += f"-{i} is not an argument, type -h -l for all valid args \n"
+    f_args = args
+    while f_args != "":
+        if " " in f_args:
+            arg, f_args = f_args.split(" ", 1)
+            if arg not in allowed:
+                res += f"{arg} is not an argument, type -h -l for all valid args"
+        else:
+            if f_args not in allowed:
+                res += f"{f_args} is not an argument, type -h -l for all valid args"
+            f_args = ""
     return res
 
 
@@ -32,6 +41,8 @@ def list_f(args=''):
     res = ""
     allowed = ["-h", "-l"]
     res += arg_filter(args, allowed)
+    if "-h" in args:
+        res += "this function lists all files on the server.\n"
     if "-h" in args:
         res += "this function lists all files on the server.\n"
     if args == '' or "-l" in args:
