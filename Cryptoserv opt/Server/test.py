@@ -10,7 +10,7 @@ def list(args=None):
 #     data = f.read()
 # print(data)
 cur_path = os.path.dirname(__file__)
-print("cp:", cur_path)
+list(cur_path)
 new_path = os.path.relpath("/test_folder/TF2", cur_path)
 print(new_path)
 list(new_path)
