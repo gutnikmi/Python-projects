@@ -11,6 +11,7 @@ def list(args=None):
 # print(data)
 cur_path = os.path.dirname(__file__)
 list(cur_path)
-new_path = os.path.relpath("/test_folder/TF2", cur_path)
+new_path = cur_path + "\\" + input()
 print(new_path)
 list(new_path)
+
