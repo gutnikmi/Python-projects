@@ -82,8 +82,8 @@ class Cnct:  # settings for a connection
 
 class Globals:
     def __init__(self):
-        self.aes_key = ""
-        self.con = ""
+        self.aes_key = None
+        self.con = None
 
 
 if __name__ == "__main__":  # main body

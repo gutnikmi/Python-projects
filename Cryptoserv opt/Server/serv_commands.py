@@ -100,6 +100,11 @@ def test():
     print(serv_cmd(input()))
     test()
 
+class Globals:
+    def __init__(self):
+        self.path = ""
+
+
 
 if __name__ == "__main__":
     test()
