@@ -3,6 +3,9 @@ from os import listdir
 from os.path import isfile, join
 
 
+''' to implement a function: add to dictionary in serv_cmd, add allowed commands in allowed list inside a function '''
+
+
 def func_template(args=''):
     res = ""
     allowed = []
@@ -18,7 +21,8 @@ def serv_cmd(inpt):  # parse commands
     func_dict = {
         "-list": list_f,
         "-help": help_f,
-        "-read": read_f
+        "-read": read_f,
+        "..": go_up
     }
 
     if " " in inpt:
@@ -100,10 +104,22 @@ def test():
     print(serv_cmd(input()))
     test()
 
+
+def go_up(args=''):
+    res = ""
+    allowed = []
+    res += arg_filter(args, allowed)
+    if args == '':  # default arg
+        pass
+    return res
+
+
 class Globals:
     def __init__(self):
-        self.path = ""
+        self.path = os.path.dirname(__file__)
 
+
+glob = Globals()
 
 
 if __name__ == "__main__":
