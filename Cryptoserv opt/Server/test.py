@@ -10,15 +10,29 @@ def list(args=None):
 #     data = f.read()
 # print(data)
 cur_path = os.path.dirname(__file__)
-print(cur_path)
-list(cur_path)
-new_path = os.path.join(os.path.dirname(__file__), 'test_folder').replace('\\', '/')
-if not os.path.isdir(new_path):
-    new_path = cur_path
-    print("Not a valid dir")
-else:
-    cur_path = new_path
-#  new_path = cur_path + "\\" + input()
-print(cur_path)
-list(cur_path)
 
+def ls(cp):
+    list(cp)
+
+
+def up(cp):
+    cur_path = os.path.dirname(cp)
+    return cur_path
+
+
+def down(cp):
+    new_path = os.path.join(cp, "Server").replace('\\', '/')
+    if not os.path.isdir(new_path):
+        new_path = cp
+        print("Not a valid dir")
+    return new_path
+
+
+print(cur_path)
+list(cur_path)
+cur_path = up(cur_path)
+print(cur_path)
+list(cur_path)
+cur_path = down(cur_path)
+print(cur_path)
+list(cur_path)
