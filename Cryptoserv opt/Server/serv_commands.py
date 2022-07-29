@@ -19,8 +19,8 @@ def func_template(args=''):
 
 def serv_cmd(inpt):  # parse commands
     func_dict = {
-        "-list": list_f,
-        "-help": help_f,
+        "ls": list_f,
+        "man": help_f,
         "-read": read_f,
         "..": go_up
     }
@@ -57,8 +57,6 @@ def list_f(args=''):
     res = ""
     allowed = ["-h", "-l", "-a", "-files", "-folders"]
     res += arg_filter(args, allowed)
-    if "-h" in args:
-        res += "this function lists all files on the server.\n"
     if "-files" in args:
         fl = [f for f in listdir() if isfile(join(f))]
         res += '\n'.join(fl) + "\n"
@@ -73,18 +71,18 @@ def list_f(args=''):
 
 def help_f(args=''):
     res = ""
-    allowed = ["-h", "-list"]
+    allowed = ["-h", "ls"]
     res += arg_filter(args, allowed)
-    if "-list" in args:  # optional args
+    if "ls" in args:  # optional args
         res += "-list: lists all files stored on the server.\n" \
                "accepts arguments:\n" \
-               "-h: description \n" \
                "-a: full folder contents \n" \
-               "-files: list only files"
+               "-files: list only files\n" \
+               "-folders: list only folders"
     if args == '' or "-h" in args:  # default arg
-        res += "-list: lists all files stored on the server \n" \
-                   "-help: lists all server commands \n" \
-               "type -help -command to get info on said command"
+        res += "ls: lists all files stored on the server \n" \
+                   "man: lists all server commands \n" \
+               "type man -command to get info on said command"
     return res
 
 
