@@ -21,7 +21,7 @@ def serv_cmd(inpt):  # parse commands
     func_dict = {
         "ls": list_f,
         "man": help_f,
-        "-read": read_f,
+        "cat": read_f,
         "..": go_up
     }
 
@@ -58,13 +58,13 @@ def list_f(args=''):
     allowed = ["-h", "-l", "-a", "-files", "-folders"]
     res += arg_filter(args, allowed)
     if "-files" in args:
-        fl = [f for f in listdir() if isfile(join(f))]
+        fl = [f for f in listdir(glob.path) if isfile(join(f))]
         res += '\n'.join(fl) + "\n"
     if "-folders" in args:
-        fl = [f for f in listdir() if not isfile(join(f))]
+        fl = [f for f in listdir(glob.path) if not isfile(join(f))]
         res += '\n'.join(fl) + "\n"
     if args == '' or "-a" in args:
-        files_serv = '\n'.join(os.listdir()) + "\n"
+        files_serv = '\n'.join(os.listdir(glob.path)) + "\n"
         res += files_serv
     return res
 
@@ -105,10 +105,12 @@ def test():
 
 def go_up(args=''):
     res = ""
-    allowed = []
+    allowed = ["-ls"]
     res += arg_filter(args, allowed)
-    if args == '':  # default arg
-        pass
+    if args == '' or "-ls" in args:  # default arg
+        glob.path = os.path.dirname(glob.path)
+    if "-ls" in args:  # optional args
+        res = list_f()
     return res
 
 
