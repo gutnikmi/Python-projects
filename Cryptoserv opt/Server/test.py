@@ -12,9 +12,9 @@ def list(args=None):
 cur_path = os.path.dirname(__file__)
 print(cur_path)
 list(cur_path)
-new_path = cur_path + "\\" + input()
+new_path = os.path.join(os.path.dirname( __file__ ), 'templates').replace('\\', '/')
 if not os.path.isdir(new_path):
-    new_path = cur_path
+    cur_path = new_path
     print("Not a valid dir")
 #  new_path = cur_path + "\\" + input()
 print(new_path)
