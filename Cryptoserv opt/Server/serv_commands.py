@@ -22,7 +22,8 @@ def serv_cmd(inpt):  # parse commands
         "ls": list_f,
         "man": help_f,
         "cat": read_f,
-        "..": go_up
+        "..": go_up,
+        "cd": go_down
     }
 
     if " " in inpt:
@@ -58,12 +59,15 @@ def list_f(args=''):
     allowed = ["-h", "-l", "-a", "-files", "-folders"]
     res += arg_filter(args, allowed)
     if "-files" in args:
+        res += f"Current directory:{glob.path} \n"
         fl = [f for f in listdir(glob.path) if isfile(join(f))]
         res += '\n'.join(fl) + "\n"
     if "-folders" in args:
+        res += f"Current directory:{glob.path} \n"
         fl = [f for f in listdir(glob.path) if not isfile(join(f))]
         res += '\n'.join(fl) + "\n"
     if args == '' or "-a" in args:
+        res += f"Current directory:{glob.path} \n"
         files_serv = '\n'.join(os.listdir(glob.path)) + "\n"
         res += files_serv
     return res
@@ -109,8 +113,21 @@ def go_up(args=''):
     res += arg_filter(args, allowed)
     if args == '' or "-ls" in args:  # default arg
         glob.path = os.path.dirname(glob.path)
+        res += f"Current directory:{glob.path}"
     if "-ls" in args:  # optional args
         res = list_f()
+    return res
+
+
+def go_down(args):
+    res = ""
+    new_path = os.path.join(glob.path, args).replace('\\', '/')
+    if not os.path.isdir(new_path):
+        res += "Not a valid dir"
+    else:
+        glob.path = new_path
+        res += f"Current directory:{glob.path}"
+
     return res
 
 
