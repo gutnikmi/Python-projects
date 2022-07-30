@@ -31,12 +31,12 @@ def serv_cmd(inpt):  # parse commands
         if inpt in func_dict:
             return func_dict[inpt](args)
         else:
-            return "Unknown command, type -help to list all available commands"
+            return "Unknown command, type man to list all available commands"
     else:
         if inpt in func_dict:
             return func_dict[inpt]()
         else:
-            return "Unknown command, type -help to list all available commands"
+            return "Unknown command, type man to list all available commands"
 
 
 def arg_filter(args, allowed):
@@ -46,10 +46,10 @@ def arg_filter(args, allowed):
         if " " in f_args:
             arg, f_args = f_args.split(" ", 1)
             if arg not in allowed:
-                res += f"{arg} is not an argument, type -help -command for all valid args"
+                res += f"{arg} is not an argument, type man -command for all valid args"
         else:
             if f_args not in allowed:
-                res += f"{f_args} is not an argument, type -h -command for all valid args"
+                res += f"{f_args} is not an argument, type man -command for all valid args"
             f_args = ""
     return res
 
@@ -91,15 +91,12 @@ def help_f(args=''):
 
 
 def read_f(args=''):
-    res = ""
-    allowed = []
-    res += arg_filter(args, allowed)
-    if "-a" in args:  # optional args
-        pass
-    if args == '' or "-b" in args:  # default arg
-        with open("test_folder" + "/test_txt.txt", "r") as f:
-            res = f.read()
-    return res
+    try:
+        with open(glob.path + "/" + args, "r") as f:
+            data = f.read()
+    except Exception as e:
+        data = e
+    return data
 
 
 def test():

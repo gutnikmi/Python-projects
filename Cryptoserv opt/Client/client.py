@@ -30,9 +30,9 @@ def send_msg(inp):  # send message
     data1 = sock.recv(4096)
     data1 = decr_pic(data1)
     print(data1)
-    data = sock.recv(4096)
-    data = decr_pic(data)
-    print(data)
+    # data = sock.recv(4096)
+    # data = decr_pic(data)
+    # print(data)
     send_msg(input())
 
 

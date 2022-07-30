@@ -25,10 +25,10 @@ def rec():  # receive message
         print(res)
         res_data = enc_pic(res)
         time_rec = time.asctime()
-        data2 = f"message received at {time_rec}"
-        data2 = enc_pic(data2)
+        # data2 = f"message received at {time_rec}"
+        # data2 = enc_pic(data2)
         glob.con.conn.send(res_data)
-        glob.con.conn.send(data2)
+        # glob.con.conn.send(data2)
         rec()
 
 

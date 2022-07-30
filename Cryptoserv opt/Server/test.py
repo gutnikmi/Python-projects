@@ -28,12 +28,10 @@ def down(cp):
     return new_path
 
 
-print(cur_path)
-list(cur_path)
-cur_path = up(cur_path)
-print(cur_path)
-list(cur_path)
-cur_path = down(cur_path)
-print(cur_path)
-list(cur_path)
-print("this is a test string")
+ls(cur_path)
+with open("D:\\Git\Python-projects\\Cryptoserv opt\\Server\\TF\\Capybara.jpg", "r") as f:
+    data = f.read()
+    print(data)
+
+
+
