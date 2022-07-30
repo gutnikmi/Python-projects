@@ -1,4 +1,6 @@
 import os
+from PIL import Image
+import io
 
 
 def list(args=None):
@@ -28,10 +30,10 @@ def down(cp):
     return new_path
 
 
-ls(cur_path)
-with open("D:\\Git\Python-projects\\Cryptoserv opt\\Server\\TF\\Capybara.jpg", "r") as f:
+# ls(cur_path)
+with open("D:\\Git\Python-projects\\Cryptoserv opt\\Server\\TF\\Capybara.jpg", "rb") as f:
     data = f.read()
-    print(data)
-
+im = Image.open(io.BytesIO(data))
+im.show()
 
 

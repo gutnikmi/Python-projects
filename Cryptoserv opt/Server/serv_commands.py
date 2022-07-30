@@ -94,8 +94,9 @@ def read_f(args=''):
     try:
         with open(glob.path + "/" + args, "r") as f:
             data = f.read()
-    except Exception as e:
-        data = e
+    except Exception:
+        with open(glob.path + "/" + args, "rb") as f:
+            data = f.read()
     return data
 
 
@@ -124,6 +125,12 @@ def go_down(args):
     else:
         glob.path = new_path
         res += f"Current directory:{glob.path}"
+
+    return res
+
+
+def show(args):
+    res = ""
 
     return res
 
