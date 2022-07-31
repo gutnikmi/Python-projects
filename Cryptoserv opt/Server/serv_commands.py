@@ -1,7 +1,8 @@
 import os
 from os import listdir
 from os.path import isfile, join
-
+from PIL import Image
+import io
 
 ''' to implement a function: add to dictionary in serv_cmd, add allowed commands in allowed list inside a function '''
 
@@ -23,7 +24,8 @@ def serv_cmd(inpt):  # parse commands
         "man": help_f,
         "cat": read_f,
         "..": go_up,
-        "cd": go_down
+        "cd": go_down,
+        "show": show
     }
 
     if " " in inpt:
@@ -131,7 +133,13 @@ def go_down(args):
 
 def show(args):
     res = ""
-
+    try:
+        with open(os.path.join(glob.path, args), "rb") as f:
+            data = f.read()
+        im = Image.open(io.BytesIO(data))
+        res = im.show()
+    except Exception as e:
+        print(e)
     return res
 
 
