@@ -13,27 +13,8 @@ def list(args=None):
 # print(data)
 cur_path = os.path.dirname(__file__)
 
-def ls(cp):
-    list(cp)
 
 
-def up(cp):
-    cur_path = os.path.dirname(cp)
-    return cur_path
 
-
-def down(cp):
-    new_path = os.path.join(cp, "Server").replace('\\', '/')
-    if not os.path.isdir(new_path):
-        new_path = cp
-        print("Not a valid dir")
-    return new_path
-
-
-# ls(cur_path)
-with open("D:\\Git\Python-projects\\Cryptoserv opt\\Server\\TF\\Capybara.jpg", "rb") as f:
-    data = f.read()
-im = Image.open(io.BytesIO(data))
-im.show()
 
 
