@@ -37,7 +37,7 @@ def send_msg(inp):  # send message
 
 
 def send_ks(key):  # send keys
-    print("Sent encrypted AES key")
+    print("Sent an encrypted AES key")
     key = rsa.encrypt(key, pub)
     sock.send(key)
     data = sock.recv(4096)
@@ -60,5 +60,5 @@ if __name__ == "__main__":  # main body
     try:
         send_msg(input())
     except KeyboardInterrupt:
-        print("keyboard interrupt")
+        print("Keyboard interrupt")
         sock.close()
