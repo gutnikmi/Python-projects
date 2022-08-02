@@ -48,17 +48,17 @@ def arg_filter(args, allowed):
         if " " in f_args:
             arg, f_args = f_args.split(" ", 1)
             if arg not in allowed:
-                res += f"{arg} is not an argument, type man -command for all valid args"
+                res += f"{arg} is not an argument, type man command for all valid args"
         else:
             if f_args not in allowed:
-                res += f"{f_args} is not an argument, type man -command for all valid args"
+                res += f"{f_args} is not an argument, type man command for all valid args"
             f_args = ""
     return res
 
 
 def list_f(args=''):
     res = ""
-    allowed = ["-h", "-l", "-a", "-files", "-folders"]
+    allowed = ["-a", "-files", "-folders"]
     res += arg_filter(args, allowed)
     if "-files" in args:
         res += f"Current directory:{glob.path} \n"
@@ -77,7 +77,7 @@ def list_f(args=''):
 
 def help_f(args=''):
     res = ""
-    allowed = ["-h", "ls"]
+    allowed = ["-h", "ls", "cat", "..", "cd", "show"]
     res += arg_filter(args, allowed)
     if "ls" in args:  # optional args
         res += "-list: lists all files stored on the server.\n" \
@@ -85,10 +85,16 @@ def help_f(args=''):
                "-a: full folder contents \n" \
                "-files: list only files\n" \
                "-folders: list only folders"
+    # if ".." in args: #  man template
+    #     res +=
+    if "cat" in args:
+        res += "if possible reads text from the file, otherwise reads bytes from the file"
+    if ".." in args:
+        res += "moves path up a directory"
     if args == '' or "-h" in args:  # default arg
         res += "ls: lists all files stored on the server \n" \
                    "man: lists all server commands \n" \
-               "type man -command to get info on said command"
+               "type man command to get info on said command"
     return res
 
 
