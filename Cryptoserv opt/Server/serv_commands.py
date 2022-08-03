@@ -91,6 +91,10 @@ def help_f(args=''):
         res += "if possible reads text from the file, otherwise reads bytes from the file"
     if ".." in args:
         res += "moves path up a directory"
+    if "cd" in args:
+        pass
+    if "show" in args:
+        pass
     if args == '' or "-h" in args:  # default arg
         res += "ls: lists all files stored on the server \n" \
                    "man: lists all server commands \n" \
