@@ -90,14 +90,19 @@ def help_f(args=''):
     if "cat" in args:
         res += "if possible reads text from the file, otherwise reads bytes from the file"
     if ".." in args:
-        res += "moves path up a directory"
+        res += "moves path up a directory\n" \
+            "-ls: lists all files stored on the server.\n"
     if "cd" in args:
-        pass
+        res += "go down a selected directory"
     if "show" in args:
-        pass
+        res += "opens an image from the server"
     if args == '' or "-h" in args:  # default arg
         res += "ls: lists all files stored on the server \n" \
                    "man: lists all server commands \n" \
+               "cat: if possible reads text from the file, otherwise reads bytes from the file \n"\
+               "..: moves path up a directory \n" \
+               "cd: go down a selected directory \n" \
+               "show: opens an image from the server \n" \
                "type man command to get info on said command"
     return res
 
